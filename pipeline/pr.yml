@@ -8,9 +8,6 @@ pool:
   vmImage: ubuntu-latest
 
 steps:
-  - bash: npm install
-    displayName: Install dependencies
-    workingDirectory: $(working_directory)
   - template: ../../pipeline/modules/trivy-file-scan.yml
   - template: ../../pipeline/modules/semgrep-file-scan.yml
   - template: ../../pipeline/modules/sonarcloud-prepare.yml
