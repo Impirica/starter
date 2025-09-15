@@ -1,127 +1,79 @@
 {
   "$schema": "https://mintlify.com/docs.json",
   "theme": "mint",
-  "name": "Mint Starter Kit",
+  "name": "Neurapulse Help Center",
   "colors": {
-    "primary": "#16A34A",
-    "light": "#07C983",
-    "dark": "#15803D"
+    "primary": "#0D9373",
+    "light": "#55D799",
+    "dark": "#0D9373"
   },
   "favicon": "/favicon.svg",
   "navigation": {
-    "tabs": [
+    "groups": [
       {
-        "tab": "Guides",
-        "groups": [
-          {
-            "group": "Getting started",
-            "pages": [
-              "index",
-              "quickstart",
-              "development"
-            ]
-          },
-          {
-            "group": "Customization",
-            "pages": [
-              "essentials/settings",
-              "essentials/navigation"
-            ]
-          },
-          {
-            "group": "Writing content",
-            "pages": [
-              "essentials/markdown",
-              "essentials/code",
-              "essentials/images",
-              "essentials/reusable-snippets"
-            ]
-          },
-          {
-            "group": "AI tools",
-            "pages": [
-              "ai-tools/cursor",
-              "ai-tools/claude-code",
-              "ai-tools/windsurf"
-            ]
-          }
+        "group": "Introduction",
+        "pages": [
+          "docs/Introduction/Overview"
         ]
       },
       {
-        "tab": "API reference",
-        "groups": [
-          {
-            "group": "API documentation",
-            "pages": [
-              "api-reference/introduction"
-            ]
-          },
-          {
-            "group": "Endpoint examples",
-            "pages": [
-              "api-reference/endpoint/get",
-              "api-reference/endpoint/create",
-              "api-reference/endpoint/delete",
-              "api-reference/endpoint/webhook"
-            ]
-          }
+        "group": "Getting Started",
+        "pages": [
+          "docs/Getting-Started/signing-up",
+          "docs/Getting-Started/portal-overview"
+        ]
+      },
+      {
+        "group": "Projects",
+        "pages": [
+          "docs/Projects/creating-a-project",
+          "docs/Projects/managing-projects",
+          "docs/Projects/running-tests"
+        ]
+      },
+      {
+        "group": "Test Taker Experience",
+        "pages": [
+          "docs/Test-Taker-Experience/test-taker-journey",
+          "docs/Test-Taker-Experience/mental-flexibility-tasks",
+          "docs/Test-Taker-Experience/things-to-remember",
+          "docs/Test-Taker-Experience/common-issues"
+        ]
+      },
+      {
+        "group": "Viewing Results",
+        "pages": [
+          "docs/Viewing-Results/accessing-results",
+          "docs/Viewing-Results/project-level-analysis"
+        ]
+      },
+      {
+        "group": "Organizations",
+        "pages": [
+          "docs/Organizations/creating-an-organization"
+        ]
+      },
+      {
+        "group": "Account Settings",
+        "pages": [
+          "docs/Account-Settings/updating-account-information",
+          "docs/Account-Settings/accessing-help-center",
+          "docs/Account-Settings/billing"
+        ]
+      },
+      {
+        "group": "Additional Resources",
+        "pages": [
+          "docs/Additional-Resources/system-requirements",
+          "docs/Additional-Resources/accessibility-features",
+          "docs/Additional-Resources/notifications-and-alerts",
+          "docs/Additional-Resources/best-practices",
+          "docs/Additional-Resources/troubleshooting-common-issues",
+          "docs/Additional-Resources/using-neurapulse-on-mobile",
+          "docs/Additional-Resources/glossary-of-terms",
+          "docs/Additional-Resources/faq"
         ]
       }
-    ],
-    "global": {
-      "anchors": [
-        {
-          "anchor": "Documentation",
-          "href": "https://mintlify.com/docs",
-          "icon": "book-open-cover"
-        },
-        {
-          "anchor": "Community",
-          "href": "https://mintlify.com/community",
-          "icon": "slack"
-        },
-        {
-          "anchor": "Blog",
-          "href": "https://mintlify.com/blog",
-          "icon": "newspaper"
-        }
-      ]
-    }
-  },
-  "logo": {
-    "light": "/logo/light.svg",
-    "dark": "/logo/dark.svg"
-  },
-  "navbar": {
-    "links": [
-      {
-        "label": "Support",
-        "href": "mailto:hi@mintlify.com"
-      }
-    ],
-    "primary": {
-      "type": "button",
-      "label": "Dashboard",
-      "href": "https://dashboard.mintlify.com"
-    }
-  },
-  "contextual": {
-    "options": [
-     "copy",
-     "view",
-     "chatgpt",
-     "claude",
-     "perplexity",
-     "mcp",
-     "cursor",
-     "vscode"
-   ]
-  },
-  "footer": {
-    "socials": {
-      "x": "https://x.com/mintlify",
-      "github": "https://github.com/mintlify",
-      "linkedin": "https://linkedin.com/company/mintlify"
-    }
+    ]
   }
 }
