@@ -1,0 +1,38 @@
+trigger: none
+pr: none
+
+variables:
+  - template: vars.yml
+
+pool:
+  vmImage: ubuntu-latest
+
+steps:
+  - bash: npm install
+    displayName: Install dependencies
+    workingDirectory: $(working_directory)
+  - template: ../../pipeline/modules/trivy-file-scan.yml
+  - template: ../../pipeline/modules/semgrep-file-scan.yml
+  - template: ../../pipeline/modules/sonarcloud-prepare.yml
+  - bash: npm i -g mint
+    displayName: Install Mintlify CLI
+  - bash: mint broken-links
+    displayName: Check broken links
+    workingDirectory: $(working_directory)
+  - bash: |
+      set -e
+      if [ -d "api-reference" ]; then
+        files=$(find api-reference -type f \( -name '*.yaml' -o -name '*.yml' -o -name '*.json' \))
+        if [ -z "$files" ]; then
+          echo "No OpenAPI specs found"
+        else
+          for f in $files; do
+            echo "Checking $f"
+            mint openapi-check "$f"
+          done
+        fi
+      else
+        echo "No api-reference directory"
+      fi
+    displayName: Validate OpenAPI specs
+    workingDirectory: $(working_directory)

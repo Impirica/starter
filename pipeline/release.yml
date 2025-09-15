@@ -1,0 +1,30 @@
+trigger:
+  branches:
+    include:
+      - main
+  paths:
+    include:
+      - help2/**/*
+pr: none
+
+pool:
+  vmImage: ubuntu-latest
+
+variables:
+  - template: vars.yml
+
+stages:
+  - stage: Prod
+    jobs:
+      - job: MirrorToProd
+        steps:
+          - checkout: self
+            fetchDepth: 0
+          - script: |
+              set -e
+              git config user.email "docs-bot@impirica.com"
+              git config user.name "Impirica Docs Bot"
+              git subtree split -P help2 -b help2-export
+              git remote add github https://$(GITHUB_TOKEN_PROD)@github.com/Impirica/help.git
+              git push -f github refs/heads/help2-export:refs/heads/main
+            displayName: Mirror /help2 to GitHub (prod)
