@@ -1,17 +1,14 @@
-pool:
-  name: Neurapulse
-
-trigger: none
+trigger:
+  branches:
+    include:
+      - main
+  paths:
+    include:
+      - help2/**/*
 pr: none
 
-resources:
-  pipelines:
-    - pipeline: CI
-      source: \Help2\Help2 - CI
-      trigger:
-        branches:
-          include:
-            - main
+pool:
+  name: Neurapulse
 
 variables:
   - template: vars.yml
