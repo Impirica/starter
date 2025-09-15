@@ -1,6 +1,6 @@
 variables:
   - group: neurapulse
-  - group: neurapulse-quality
+  - group: mintlify
   - name: project_name
     value: help2
   - name: working_directory
