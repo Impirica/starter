@@ -3,18 +3,21 @@
   "theme": "mint",
   "name": "Neurapulse Help Center",
   "colors": {
-    "primary": "#0D9373",
-    "light": "#55D799",
-    "dark": "#0D9373"
+    "primary": "#1C47A1",
+    "light": "#3666CE",
+    "dark": "#1C47A1"
   },
   "favicon": "/favicon.svg",
+  "logo": {
+    "light": "/logo/light.svg",
+    "dark": "/logo/dark.svg",
+    "href": "https://neurapulse.com"
+  },
   "navigation": {
     "groups": [
       {
         "group": "Introduction",
-        "pages": [
-          "docs/Introduction/Overview"
-        ]
+        "pages": ["docs/Introduction/Overview"]
       },
       {
         "group": "Getting Started",
@@ -49,9 +52,7 @@
       },
       {
         "group": "Organizations",
-        "pages": [
-          "docs/Organizations/creating-an-organization"
-        ]
+        "pages": ["docs/Organizations/creating-an-organization"]
       },
       {
         "group": "Account Settings",
