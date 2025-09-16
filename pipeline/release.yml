@@ -25,11 +25,32 @@ stages:
             displayName: Use Node.js 20.x
           - checkout: self
             fetchDepth: 0
+            clean: true
           - script: |
-              set -e
+              set -euo pipefail
+              BRANCH_NAME="help2-export"
+              REMOTE_NAME="github"
+              REMOTE_URL="https://$(GITHUB_TOKEN_PROD)@github.com/Impirica/help.git"
+
               git config user.email "docs-bot@impirica.com"
               git config user.name "Impirica Docs Bot"
-              git subtree split -P help2 -b help2-export
-              git remote add github https://$(GITHUB_TOKEN_PROD)@github.com/Impirica/help.git
-              git push -f github refs/heads/help2-export:refs/heads/main
+
+              git fetch --all --prune
+              if git show-ref --verify --quiet refs/heads/$BRANCH_NAME; then
+                git branch -D "$BRANCH_NAME"
+              fi
+
+              git subtree split -P help2 -b "$BRANCH_NAME"
+
+              if git remote get-url "$REMOTE_NAME" >/dev/null 2>&1; then
+                git remote set-url "$REMOTE_NAME" "$REMOTE_URL"
+              else
+                git remote add "$REMOTE_NAME" "$REMOTE_URL"
+              fi
+
+              git push -f "$REMOTE_NAME" "refs/heads/$BRANCH_NAME:refs/heads/main"
+
+              git branch -D "$BRANCH_NAME" || true
+              git remote remove "$REMOTE_NAME" || true
+              git gc --prune=now --aggressive || true
             displayName: Mirror /help2 to GitHub (prod)
