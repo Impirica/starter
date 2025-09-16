@@ -1,0 +1,141 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "api-service | v1",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://api.neurapulse.com/"
+    }
+  ],
+  "components": {
+    "securitySchemes": {
+      "ApiKeyHeader": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "x-api-key",
+        "description": "API key generated in the Neurapulse Portal (Account Settings → API Keys)."
+      }
+    },
+    "schemas": {
+      "OrderByType": {
+        "type": "integer",
+        "default": 0
+      },
+      "ResultOrderByType": {
+        "type": "integer",
+        "default": 0
+      },
+      "Project": {
+        "type": "object",
+        "required": ["id", "name"],
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "Project identifier used in other endpoints."
+          },
+          "name": {
+            "type": "string",
+            "description": "Human-readable project name."
+          }
+        }
+      }
+    }
+  },
+  "security": [{ "ApiKeyHeader": [] }],
+  "paths": {
+    "/projects/{projectId}/results/{referenceId}": {
+      "get": {
+        "summary": "Get latest result by referenceId",
+        "description": "Returns the latest result for a specific test taker identified by your own `referenceId`. Use this when you assign a stable identifier in your system and want a direct lookup without paging or filtering.",
+        "tags": ["ProjectResults"],
+        "parameters": [
+          {
+            "name": "projectId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "referenceId",
+            "in": "path",
+            "required": true,
+            "description": "Your identifier for a test taker (1–500 chars). Set and store this in your system to enable direct lookups.",
+            "schema": {
+              "maxLength": 500,
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": { "description": "OK" }
+        }
+      }
+    },
+    "/projects/{projectId}/results": {
+      "get": {
+        "summary": "List latest results in a project",
+        "description": "Returns a paginated list of latest results for the project. Use the `filter` query to search by `referenceId`, test taker `fullName`, or `email`. Combine with `order`, `orderBy`, `page`, and `pageSize` for precise retrieval.",
+        "tags": ["ProjectResults"],
+        "parameters": [
+          {
+            "name": "projectId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 100
+            }
+          },
+          {
+            "name": "order",
+            "in": "query",
+            "schema": { "$ref": "#/components/schemas/OrderByType" }
+          },
+          {
+            "name": "orderBy",
+            "in": "query",
+            "schema": { "$ref": "#/components/schemas/ResultOrderByType" }
+          },
+          {
+            "name": "filter",
+            "in": "query",
+            "description": "Substring match across `referenceId`, `fullName`, and `email`.",
+            "schema": {
+              "maxLength": 500,
+              "type": "string",
+              "default": ""
+            }
+          }
+        ],
+        "responses": {
+          "200": { "description": "OK" }
+        }
+      }
+    }
+  },
+  "tags": [{ "name": "ProjectResults" }]
+}

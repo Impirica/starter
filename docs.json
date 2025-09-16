@@ -7,11 +7,12 @@
     "light": "#3666CE",
     "dark": "#1C47A1"
   },
-  "favicon": "/favicon.svg",
+  "favicon": "/favicon.ico",
   "logo": {
     "light": "/logo/light.svg",
     "dark": "/logo/dark.svg",
-    "href": "https://neurapulse.com"
+    "href": "https://neurapulse.com",
+    "height": 47
   },
   "navigation": {
     "groups": [
@@ -74,7 +75,21 @@
           "docs/Additional-Resources/glossary-of-terms",
           "docs/Additional-Resources/faq"
         ]
+      },
+      {
+        "group": "Developers - API Reference",
+        "pages": ["api-reference/introduction"],
+        "openapi": "api-reference/v1.json"
       }
     ]
+  },
+  "api": {
+    "playground": {
+      "display": "interactive"
+    },
+    "examples": {
+      "languages": ["curl", "javascript", "python"],
+      "defaults": "required"
+    }
   }
 }
