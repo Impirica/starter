@@ -23,8 +23,10 @@ steps:
     displayName: Install Mintlify CLI
   - bash: |
       set -euo pipefail
-      # Fail if the success line is not printed
-      mint broken-links | tee /dev/stderr | grep -qi 'success no broken links found'
+      # Workaround for environments without /dev/stderr: capture to a temp file and grep
+      TMP_LOG=$(mktemp)
+      mint broken-links | tee "$TMP_LOG"
+      grep -qi 'success no broken links found' "$TMP_LOG"
     displayName: Check broken links
     workingDirectory: $(working_directory)
   - bash: |
