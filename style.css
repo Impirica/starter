@@ -1,0 +1,9 @@
+img.nav-logo,
+.nav-logo img,
+img.mintlify-logo,
+.mintlify-logo img {
+  height: 34px !important;
+  width: auto !important;
+}
+
+
