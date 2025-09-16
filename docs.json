@@ -78,8 +78,8 @@
       },
       {
         "group": "Developers - API Reference",
-        "pages": ["api-reference/introduction"],
-        "openapi": "api-reference/v1.json"
+        "pages": ["api-reference/introduction"]
+
       }
     ]
   },
