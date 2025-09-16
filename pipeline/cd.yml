@@ -31,7 +31,6 @@ steps:
       git config user.email "docs-bot@impirica.com"
       git config user.name "Impirica Docs Bot"
 
-      git fetch --all --prune
       if git show-ref --verify --quiet refs/heads/$BRANCH_NAME; then
         git branch -D "$BRANCH_NAME"
       fi
