@@ -21,7 +21,10 @@ steps:
     displayName: Use Node.js 20.x
   - bash: npm i -g mint
     displayName: Install Mintlify CLI
-  - bash: mint broken-links
+  - bash: |
+      set -euo pipefail
+      # Fail if the success line is not printed
+      mint broken-links | tee /dev/stderr | grep -qi 'success no broken links found'
     displayName: Check broken links
     workingDirectory: $(working_directory)
   - bash: |
