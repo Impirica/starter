@@ -6,55 +6,22 @@
   },
   "servers": [
     {
-      "url": "https://api.neurapulse.com/"
+      "url": "https://api.neurapulse.local/"
     }
   ],
-  "components": {
-    "securitySchemes": {
-      "ApiKeyHeader": {
-        "type": "apiKey",
-        "in": "header",
-        "name": "x-api-key",
-        "description": "API key generated in the Neurapulse Portal (Account Settings → API Keys)."
-      }
-    },
-    "schemas": {
-      "OrderByType": {
-        "type": "integer",
-        "default": 0
-      },
-      "ResultOrderByType": {
-        "type": "integer",
-        "default": 0
-      },
-      "Project": {
-        "type": "object",
-        "required": ["id", "name"],
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid",
-            "description": "Project identifier used in other endpoints."
-          },
-          "name": {
-            "type": "string",
-            "description": "Human-readable project name."
-          }
-        }
-      }
-    }
-  },
-  "security": [{ "ApiKeyHeader": [] }],
   "paths": {
     "/projects/{projectId}/results/{referenceId}": {
       "get": {
+        "tags": [
+          "ProjectResults"
+        ],
         "summary": "Get latest result by referenceId",
         "description": "Returns the latest result for a specific test taker identified by your own `referenceId`. Use this when you assign a stable identifier in your system and want a direct lookup without paging or filtering.",
-        "tags": ["ProjectResults"],
         "parameters": [
           {
             "name": "projectId",
             "in": "path",
+            "description": "Your project's unique identifier. ProjectId is queryable using the /api/project route or by extracting the guid from the url while on a project's page.",
             "required": true,
             "schema": {
               "type": "string",
@@ -64,8 +31,8 @@
           {
             "name": "referenceId",
             "in": "path",
+            "description": "Your identifier for a test taker (1–500 chars). Set and store this in your system to enable direct lookups. Must url-encoded.",
             "required": true,
-            "description": "Your identifier for a test taker (1–500 chars). Set and store this in your system to enable direct lookups.",
             "schema": {
               "maxLength": 500,
               "type": "string"
@@ -73,19 +40,121 @@
           }
         ],
         "responses": {
-          "200": { "description": "OK" }
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
         }
       }
     },
     "/projects/{projectId}/results": {
       "get": {
+        "tags": [
+          "ProjectResults"
+        ],
         "summary": "List latest results in a project",
         "description": "Returns a paginated list of latest results for the project. Use the `filter` query to search by `referenceId`, test taker `fullName`, or `email`. Combine with `order`, `orderBy`, `page`, and `pageSize` for precise retrieval.",
-        "tags": ["ProjectResults"],
         "parameters": [
           {
             "name": "projectId",
             "in": "path",
+            "description": "Your project's unique identifier. ProjectId is queryable using the /api/project route or by extracting the guid from the url while on a project's page.",
             "required": true,
             "schema": {
               "type": "string",
@@ -95,6 +164,7 @@
           {
             "name": "page",
             "in": "query",
+            "description": "Page number starting at 1. Default is 1.",
             "schema": {
               "type": "integer",
               "format": "int32",
@@ -104,6 +174,7 @@
           {
             "name": "pageSize",
             "in": "query",
+            "description": "Items per page (1–100). Default is 100.",
             "schema": {
               "type": "integer",
               "format": "int32",
@@ -113,12 +184,29 @@
           {
             "name": "order",
             "in": "query",
-            "schema": { "$ref": "#/components/schemas/OrderByType" }
+            "description": "Sort direction. Accepted values: asc, desc. Default is asc.",
+            "schema": {
+              "enum": [
+                "asc",
+                "desc"
+              ],
+              "type": "string",
+              "default": 0
+            }
           },
           {
             "name": "orderBy",
             "in": "query",
-            "schema": { "$ref": "#/components/schemas/ResultOrderByType" }
+            "description": "Field to order by. Accepted values: risk, performance, fullName. Default is risk.",
+            "schema": {
+              "enum": [
+                "risk",
+                "performance",
+                "fullName"
+              ],
+              "type": "string",
+              "default": 0
+            }
           },
           {
             "name": "filter",
@@ -132,10 +220,216 @@
           }
         ],
         "responses": {
-          "200": { "description": "OK" }
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Result"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Result"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Result"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
         }
       }
     }
   },
-  "tags": [{ "name": "ProjectResults" }]
+  "components": {
+    "schemas": {
+      "NullableOfTestCompletionStatusType": {
+        "enum": [
+          "Started",
+          "Completed",
+          "CouldNotCompleteConnectionIssues",
+          "CouldNotCompleteNpServerIssues",
+          "CouldNotCompleteTimedOut",
+          "CouldNotCompleteUnsupportedDevice",
+          "Confirming",
+          "HighRisk",
+          "InProgress",
+          "NotStarted",
+          "Unconfirmed",
+          null
+        ],
+        "nullable": true
+      },
+      "ProblemDetails": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "nullable": true
+          },
+          "title": {
+            "type": "string",
+            "nullable": true
+          },
+          "status": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "detail": {
+            "type": "string",
+            "nullable": true
+          },
+          "instance": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "Result": {
+        "required": [
+          "email",
+          "firstName",
+          "lastName",
+          "fullName"
+        ],
+        "type": "object",
+        "properties": {
+          "referenceId": {
+            "type": "string",
+            "nullable": true
+          },
+          "email": {
+            "type": "string"
+          },
+          "firstName": {
+            "type": "string"
+          },
+          "lastName": {
+            "type": "string"
+          },
+          "fullName": {
+            "type": "string"
+          },
+          "status": {
+            "$ref": "#/components/schemas/NullableOfTestCompletionStatusType"
+          },
+          "dateCompleted": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "ApiKey": {
+        "type": "apiKey",
+        "description": "API key generated in the Portal (Account Settings → API Keys).",
+        "name": "x-api-key",
+        "in": "header"
+      }
+    }
+  },
+  "security": [
+    {
+      "ApiKey": [ ]
+    }
+  ],
+  "tags": [
+    {
+      "name": "ProjectResults"
+    }
+  ]
 }
