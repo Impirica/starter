@@ -8,6 +8,11 @@ pool:
   vmImage: ubuntu-latest
 
 steps:
+  - task: NodeTool@0
+    inputs:
+      versionSpec: '20.x'
+      checkLatest: true
+    displayName: Use Node.js 20.x
   - template: ../../pipeline/modules/trivy-file-scan.yml
   - template: ../../pipeline/modules/semgrep-file-scan.yml
   - template: ../../pipeline/modules/sonarcloud-prepare.yml

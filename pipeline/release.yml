@@ -18,6 +18,11 @@ stages:
     jobs:
       - job: MirrorToProd
         steps:
+          - task: NodeTool@0
+            inputs:
+              versionSpec: '20.x'
+              checkLatest: true
+            displayName: Use Node.js 20.x
           - checkout: self
             fetchDepth: 0
           - script: |
