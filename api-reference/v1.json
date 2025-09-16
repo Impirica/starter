@@ -6,7 +6,7 @@
   },
   "servers": [
     {
-      "url": "https://api.neurapulse.local/"
+      "url": "https://api.neurapulse.com/"
     }
   ],
   "paths": {
