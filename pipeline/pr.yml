@@ -22,7 +22,7 @@ steps:
       set -euo pipefail
       TMP_LOG=$(mktemp)
       mint broken-links | tee "$TMP_LOG"
-      grep -qi 'success no broken links found' "$TMP_LOG"
+      grep -qi 'no broken links found' "$TMP_LOG"
     displayName: Check broken links
     workingDirectory: $(working_directory)
   - bash: |

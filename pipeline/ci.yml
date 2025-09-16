@@ -26,7 +26,8 @@ steps:
       # Workaround for environments without /dev/stderr: capture to a temp file and grep
       TMP_LOG=$(mktemp)
       mint broken-links | tee "$TMP_LOG"
-      grep -qi 'success no broken links found' "$TMP_LOG"
+      # Grep for uncolored text only; "success" may include ANSI color codes
+      grep -qi 'no broken links found' "$TMP_LOG"
     displayName: Check broken links
     workingDirectory: $(working_directory)
   - bash: |
