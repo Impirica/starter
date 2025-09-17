@@ -30,7 +30,7 @@ stages:
               set -euo pipefail
               BRANCH_NAME="help2-export"
               REMOTE_NAME="github"
-              REMOTE_URL="https://$(GITHUB_TOKEN_PROD)@github.com/Impirica/help.git"
+              REMOTE_URL="https://$(GITHUB_TOKEN_PROD)@github.com/Impirica/starter.git"
 
               git config user.email "docs-bot@impirica.com"
               git config user.name "Impirica Docs Bot"
